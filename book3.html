@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Enchanted Forest Library | Open Book Chapter</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ----------------------------------------------
+       FOREST NATURE THEME - OPEN BOOK LAYOUT
+       Left: Polaroid frame with nature image
+       Right: Styled book chapter content
+    ------------------------------------------------ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #575757 0%, #0d0d0d 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .book-text p {
+            color: #ffff;
+        }
+
+        /* forest nature decor elements */
+        body::before {
+            content: "🌿🍂🍃🌲";
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            font-size: 55px;
+            opacity: 0.2;
+            pointer-events: none;
+            white-space: pre;
+        }
+
+        body::after {
+            content: "🍄🐚🌙✨";
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 60px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        /* main open book container */
+        .open-book {
+            max-width: 1300px;
+            width: 100%;
+            background: #fdf8ed;
+            background-image: radial-gradient(circle at 25% 40%, rgba(220, 190, 130, 0.08) 2%, transparent 2.5%);
+            background-size: 28px 28px;
+            border-radius: 32px 28px 28px 32px;
+            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.5), inset 0 1px 4px rgba(255, 250, 210, 0.6);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* book spine effect */
+        .open-book::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 16px;
+            background: linear-gradient(to right, #c9a86b, #ffdb3d, #c9a86b);
+            transform: translateX(-50%);
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+            z-index: 5;
+            border-radius: 4px;
+        }
+
+        /* two column layout */
+        .book-spread {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 580px;
+        }
+
+        /* LEFT PAGE: Polaroid frame area */
+        .left-page {
+            flex: 1;
+            padding: 2rem 1.5rem 2rem 2rem;
+            background: #22013e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-right: 1px dashed #e2cfaa;
+        }
+
+        .polaroid-frame {
+            background: #fffaf0;
+            padding: 18px 18px 28px 18px;
+            box-shadow: 12px 15px 25px rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(255, 245, 200, 0.8);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+            width: 100%;
+            max-width: 380px;
+            border-radius: 8px 8px 20px 20px;
+        }
+
+        .polaroid-frame:hover {
+            transform: rotate(0deg) scale(1.01);
+        }
+
+        /* image container inside polaroid */
+        .polaroid-image {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            background: #d9c8a7;
+            overflow: hidden;
+            border-radius: 6px;
+            box-shadow: inset 0 0 0 2px #f3e9ce, 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* nature/forest mystical image (CSS painted + emoji forest) but also gradient art */
+        .forest-art {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #2f6b41, #1f4d2e);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .inner-forest-glow {
+            background: url('book3.png');
+            background-position: center;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            backdrop-filter: brightness(1.05);
+        }
+
+        .inner-forest-glow span {
+            font-size: 95px;
+            filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        /* polaroid caption */
+        .polaroid-caption {
+            text-align: center;
+            margin-top: 14px;
+            font-family: 'Georgia', cursive;
+            color: #5d3a1a;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            font-style: italic;
+            border-top: 1px solid #eedbaa;
+            padding-top: 10px;
+        }
+
+        .polaroid-caption strong {
+            color: #7b4a2a;
+            font-weight: bold;
+        }
+
+        /* RIGHT PAGE: Styled book text */
+        .right-page {
+            flex: 1;
+            padding: 2rem 2rem 2rem 1.8rem;
+            background: #22013e;
+            position: relative;
+        }
+
+        /* chapter decorative header */
+        .chapter-decoration {
+            border-bottom: 2px solid #ddc8a2;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .chapter-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #b28248;
+            font-weight: normal;
+        }
+
+        .chapter-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff00c2;
+    text-shadow: 1px 1px 0 #e000ff;
+            margin: 0.25rem 0 0.5rem;
+            font-family: 'Georgia', serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chapter-title span {
+            font-size: 2rem;
+        }
+
+        /* book text styling */
+        .book-text {
+            font-size: 1.05rem;
+            line-height: 1.65;
+            color: #2c2b26;
+            text-align: justify;
+        }
+
+        .book-text p {
+            margin-bottom: 1.2rem;
+            text-indent: 2em;
+        }
+
+        .book-text p:first-of-type {
+            text-indent: 0;
+        }
+
+        .book-text p:first-of-type::first-letter {
+            font-size: 3rem;
+            font-weight: bold;
+            float: left;
+            line-height: 0.8;
+            padding-right: 8px;
+            color: #7b4a2a;
+            font-family: 'Georgia', serif;
+        }
+
+        .quote-whisper {
+            background: #f2ecdb;
+            border-left: 5px solid #c29a6b;
+            padding: 0.8rem 1.2rem;
+            font-style: italic;
+            margin: 1.2rem 0;
+            border-radius: 0 20px 20px 0;
+            color: #4a3b28;
+            font-size: 0.95rem;
+        }
+
+        /* royal drop cap and runes */
+        .rune-sign {
+            display: inline-block;
+            background: linear-gradient(to right, #c9a86b, #ffdb3d, #c9a86b);
+            padding: 0.1rem 0.5rem;
+            border-radius: 30px;
+            font-size: 16px;
+            margin-right: 8px;
+            font-style: oblique;
+            font-weight: bold;
+        }
+
+        /* navigation back button */
+        .nav-back {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .back-link {
+            background: #6f4e2e;
+            color: #fdf3df;
+            text-decoration: none;
+            padding: 0.5rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            border: 1px solid #c7a06b;
+            cursor: pointer;
+        }
+
+        .back-link:hover {
+            background: #8b5e38;
+            transform: translateX(-4px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* responsive */
+        @media (max-width: 800px) {
+            .book-spread {
+                flex-direction: column;
+            }
+
+            .left-page {
+                border-right: none;
+                border-bottom: 1px dashed #e2cfaa;
+                padding: 1.5rem;
+            }
+
+            .polaroid-frame {
+                max-width: 280px;
+                margin: 0 auto;
+            }
+
+            .chapter-title {
+                font-size: 1.5rem;
+            }
+
+            body {
+                padding: 1rem;
+            }
+        }
+
+        /* small decorative elements like leaves */
+        .leaf-border {
+            position: absolute;
+            bottom: 12px;
+            left: 20px;
+            font-size: 24px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .right-page::after {
+            content: "❦";
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            font-size: 28px;
+            opacity: 0.25;
+            color: #9c7a48;
+            font-family: serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="open-book">
+        <div class="book-spread">
+            <!-- LEFT PAGE: Polaroid with forest image -->
+            <div class="left-page">
+                <div class="polaroid-frame">
+                    <div class="polaroid-image">
+                        <div class="forest-art">
+                            <div class="inner-forest-glow">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption">
+                        📸 You’re the kind of person people search their whole lives for… and I still can’t believe I found you.
+                        <br>
+                        ✦ My Sweet Addiction ✦
+                    </div>
+                </div>
+                <!-- extra nature charm -->
+                <div class="leaf-border">🍃🍂</div>
+            </div>
+
+            <!-- RIGHT PAGE: Styled book chapter content -->
+            <div class="right-page">
+                <div class="chapter-decoration">
+                    <div class="chapter-label">⌘ Chapter of Tides & Tenderness ⌘</div>
+                    <div class="chapter-title">
+                        🧁 Sweet Cupcake
+                    </div>
+                </div>
+                <div class="book-text">
+                    <p>Every time you care about me, getting concerned about me I geta feeling which is not loud or overwhelming instead that is very warm, soft and real. That makes my inner child to break free and find a reason to smile and laugh, memorised by the warmth I get from you.</p>
+                    <p>Each time you laugh and sign the silent gentle pull that makes me want to lower my guard, to be more open with you and hold your hands forever</p>
+                </div>
+                <div class="nav-back">
+                    <div class="back-link" id="backToShelfBtn">Return to the Bookshelf</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Button to go back to index page
+        const backBtn = document.getElementById('backToShelfBtn');
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
+
+        // additional forest ambiance: subtle animation for polaroid hover/pulse
+        console.log("🌲 Polaroid page & forest chapter ready — mystical ambiance loaded.");
+
+        // optional: add floating leaf effect?
+        const leftPage = document.querySelector('.left-page');
+        if (leftPage) {
+            // tiny ambiance: create a small floating spore from polaroid? (just atmospheric)
+            const frame = document.querySelector('.polaroid-frame');
+            if (frame) {
+                frame.addEventListener('mouseenter', () => {
+                    frame.style.transition = 'transform 0.2s ease';
+                });
+            }
+        }
+    </script>
+
+    <!-- 
+  ADDITIONAL NOTES: 
+  This page is designed as a sample "book1.html" style page that matches the vertical bookshelf.
+  The left side features a rustic polaroid frame with a nature/forest artwork (CSS drawn + emoji magic).
+  The right side contains story text styled like a royal forest chapter.
+  A back button returns to the index (bookshelf).
+  The overall flavor continues the nature/forest/home-based theme with royal aesthetics.
+-->
+</body>
+
+</html>
