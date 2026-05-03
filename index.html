@@ -16,6 +16,7 @@
             background-position: center;
             font-family: Arial, sans-serif;
             background-size: cover;
+            touch-action: none;
         }
 
         /* Container */
@@ -34,6 +35,7 @@
 
         /* Slider box */
         .slider {
+          touch-action: none;
             position: relative;
             width: 320px;
             height: 70px;
@@ -640,6 +642,38 @@
                 success();
             }
         });
+
+
+        // Touch events (mobile)
+guy.addEventListener("touchstart", () => isDragging = true);
+
+document.addEventListener("touchend", () => {
+    if (isDragging) resetSlider();
+    isDragging = false;
+});
+
+function handleMove(clientX) {
+    if (!isDragging) return;
+
+    const rect = slider.getBoundingClientRect();
+    let x = clientX - rect.left;
+
+    const max = rect.width - guy.offsetWidth - 5;
+
+    if (x < 0) x = 0;
+    if (x > max) x = max;
+
+    guy.style.left = x + "px";
+    progress.style.width = (x / max) * 100 + "%";
+
+    if (x >= max - 2) {
+        success();
+    }
+}
+
+document.addEventListener("touchmove", (e) => {
+    handleMove(e.touches[0].clientX);
+});
 
         function resetSlider() {
             guy.style.left = "5px";
